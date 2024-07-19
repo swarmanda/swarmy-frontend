@@ -1,0 +1,5 @@
+.hash {
+  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  min-width: 100px;
+}

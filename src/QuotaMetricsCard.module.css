@@ -1,0 +1,10 @@
+.wrapper {
+    max-width: 500px;
+    min-width: 150px;
+}
+
+/*@media (min-width: 340px) {*/
+/*    .wrapper {*/
+/*        min-width: 340px;*/
+/*    }*/
+/*}*/
