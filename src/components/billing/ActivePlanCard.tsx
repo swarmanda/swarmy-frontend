@@ -1,18 +1,17 @@
-import { ActionIcon, Alert, Button, Card, Group, Menu, Modal, rem, Skeleton, Space, Text, Title } from '@mantine/core';
+import { ActionIcon, Alert, Button, Card, Group, Menu, Modal, rem, Skeleton, Text, Title } from '@mantine/core';
 import { IconAlertTriangle, IconCheck, IconSettings, IconTrash, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
-import { api } from './api/Api.ts';
+import { api } from '../../api/Api.ts';
 import { notifications } from '@mantine/notifications';
 
 interface ActivePlanCardProps {
   isLoading: boolean;
   plan: any;
+  onCancelled: () => void
 }
 
-export function ActivePlanCard({ plan, isLoading }: ActivePlanCardProps) {
+export function ActivePlanCard({ plan, isLoading, onCancelled }: ActivePlanCardProps) {
   const [modalOpened, setModalOpened] = useState(false);
-
-  console.log('PLAN', plan);
 
   function getStorageCapacity() {
     const gbs = plan.quotas.uploadSizeLimit / 1024 / 1024 / 1024;
@@ -20,19 +19,20 @@ export function ActivePlanCard({ plan, isLoading }: ActivePlanCardProps) {
   }
 
   function getBandwidth() {
-    const gbs = plan.quotas.uploadSizeLimit / 1024 / 1024 / 1024;
+    const gbs = plan.quotas.downloadSizeLimit / 1024 / 1024 / 1024;
     return `${gbs.toFixed(0)} GB`;
   }
 
   async function cancelSubscription(): Promise<void> {
     try {
-      await api.cancelPlan();
+      await api.cancelSubscription();
       notifications.show({
         title: 'Success',
         message: `Plan cancelled successfully`,
         icon: <IconCheck style={{ width: rem(20), height: rem(20) }} />,
         color: 'green',
       });
+      onCancelled && onCancelled()
       setModalOpened(false);
     } catch (e) {
       console.log(e);
@@ -57,7 +57,7 @@ export function ActivePlanCard({ plan, isLoading }: ActivePlanCardProps) {
   }
 
   return (
-    <Card shadow="md" radius="md" padding="xl">
+    <Card withBorder bg={'gray.8'} shadow="md" radius="md" padding="xl">
       {isLoading ? (
         <>
           <Title order={2} mb={'md'}>

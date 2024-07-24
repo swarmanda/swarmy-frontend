@@ -91,8 +91,8 @@ class Api {
     return data;
   }
 
-  async getQuotaMetrics() {
-    const { data } = await axios.get('/quota-metrics');
+  async getUsageMetrics() {
+    const { data } = await axios.get('/usage-metrics');
     return data;
   }
 
@@ -126,13 +126,13 @@ class Api {
     return data;
   }
 
-  async sendFakePaymentWebhook(merchantTransactionId: string) {
-    const { data } = await axios.post('/payment/form-notification', { merchantTransactionId });
+  async cancelSubscription() {
+    const { data } = await axios.post('/subscriptions/cancel');
     return data;
   }
 
-  async cancelPlan() {
-    const { data } = await axios.post('/plans/deactivate');
+  async sendFakePaymentWebhook(merchantTransactionId: string) {
+    const { data } = await axios.post('/payment/form-notification', { merchantTransactionId });
     return data;
   }
 }

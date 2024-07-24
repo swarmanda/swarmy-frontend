@@ -1,8 +1,8 @@
-import { Center, Group, Paper, RingProgress, Stack, Text } from '@mantine/core';
+import { Card, Center, Group, RingProgress, Stack, Text } from '@mantine/core';
 import { formatBytes } from './FileSizeFormatter.ts';
-import classes from './QuotaMetricsCard.module.css';
+import classes from './UsageMetricsCard.module.css';
 
-interface QuotaMetricsCardProps {
+interface UsageMetricsCardProps {
   title: string;
   description: string;
   value: number;
@@ -10,27 +10,32 @@ interface QuotaMetricsCardProps {
   valueType: 'BYTES' | 'COUNT';
 }
 
-export function QuotaMetricsCard({
-  title,
-  description,
-  value,
-  limit,
-  valueType,
-}: QuotaMetricsCardProps) {
-  const progress = (value / limit) * 100;
-  const percent = progress.toFixed(1);
-  console.log(value, limit, progress);
+export function UsageMetricsCard({ title, description, value, limit, valueType }: UsageMetricsCardProps) {
+  function getPercent() {
+    if (limit === 0) {
+      return '100%';
+    }
+    const progress = (value / limit) * 100;
+    return progress.toFixed(1) + '%';
+  }
+
+  function getProgress() {
+    if (limit === 0) {
+      return 100;
+    }
+    return (value / limit) * 100;
+  }
 
   return (
-    <Paper className={classes.wrapper} withBorder radius="md" p="xs">
+    <Card bg={'gray.9'} className={classes.wrapper} withBorder radius="md" p="xs">
       <Group>
         <RingProgress
           size={120}
           thickness={8}
-          sections={[{ value: progress, color: 'green.2' }]}
+          sections={[{ value: getProgress(), color: 'green.2' }]}
           label={
             <Center>
-              <b>{percent}%</b>
+              <b>{getPercent()}</b>
             </Center>
           }
         />
@@ -55,6 +60,6 @@ export function QuotaMetricsCard({
           </Stack>
         </Stack>
       </Group>
-    </Paper>
+    </Card>
   );
 }

@@ -1,7 +1,7 @@
 import { useQueries } from '@tanstack/react-query';
 import { api } from '../api/Api.ts';
-import { QuotaMetricsCard } from '../QuotaMetricsCard.tsx';
-import { SimpleGrid } from '@mantine/core';
+import { UsageMetricsCard } from '../UsageMetricsCard.tsx';
+import { SimpleGrid, Skeleton } from '@mantine/core';
 import classes from './AnalyticsRoute.module.css';
 
 export default function AnalyticsRoute() {
@@ -9,7 +9,7 @@ export default function AnalyticsRoute() {
     queries: [
       {
         queryKey: ['quota-metrics'],
-        queryFn: api.getQuotaMetrics,
+        queryFn: api.getUsageMetrics,
       },
 
       {
@@ -22,8 +22,29 @@ export default function AnalyticsRoute() {
   const isLoading = metricsQuery.isLoading || planQuery.isLoading;
 
   if (isLoading) {
-    return <></>;
+    return (
+      <>
+        <h1>Analytics</h1>
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+
+        <Skeleton height={8} mt={26} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+      </>
+    );
   }
+
+  const usedStorage = metricsQuery.data.find(m => m.type === 'UPLOADED_BYTES').used
+  const usedBandwidth = metricsQuery.data.find(m => m.type === 'DOWNLOADED_BYTES').used
+
+  const availableStorage = metricsQuery.data.find(m => m.type === 'UPLOADED_BYTES').available
+  const availableBandwidth = metricsQuery.data.find(m => m.type === 'DOWNLOADED_BYTES').available
 
   return (
     <>
@@ -35,43 +56,21 @@ export default function AnalyticsRoute() {
         spacing={{ base: 10, sm: 'xl' }}
         verticalSpacing={{ base: 'md', sm: 'xl' }}
       >
-        <QuotaMetricsCard
+        <UsageMetricsCard
           title={'Storage'}
           description={'Total bytes uploaded'}
-          value={metricsQuery.data.uploadedFilesSize}
-          limit={planQuery.data.quotas.uploadSizeLimit}
+          value={usedStorage}
+          limit={availableStorage}
           valueType={'BYTES'}
         />
-        <QuotaMetricsCard
-          title={'Uploads'}
-          description={'Number of files uploaded'}
-          value={metricsQuery.data.uploadedFilesCount}
-          limit={planQuery.data.quotas.uploadCountLimit}
-          valueType={'COUNT'}
-        />
-        <QuotaMetricsCard
+        <UsageMetricsCard
           title={'Bandwidth'}
           description={'Total bytes downloaded'}
-          value={metricsQuery.data.downloadedFilesSize}
-          limit={planQuery.data.quotas.downloadSizeLimit}
+          value={usedBandwidth}
+          limit={availableBandwidth}
           valueType={'BYTES'}
         />
-        <QuotaMetricsCard
-          title={'Downloads'}
-          description={'Number of files downloaded'}
-          value={metricsQuery.data.downloadedFilesCount}
-          limit={planQuery.data.quotas.downloadCountLimit}
-          valueType={'COUNT'}
-        />
       </SimpleGrid>
-
-      {/*<div>*/}
-      {/*    {JSON.stringify(metricsQuery.data, null, 2)}*/}
-      {/*</div>*/}
-
-      {/*<div>*/}
-      {/*    {JSON.stringify(planQuery.data, null, 2)}*/}
-      {/*</div>*/}
     </>
   );
 }
