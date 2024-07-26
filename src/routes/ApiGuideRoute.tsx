@@ -1,8 +1,19 @@
 import { Space } from '@mantine/core';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { stackoverflowDark as theme } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { config } from '../config.tsx';
 
 export default function ApiGuideRoute() {
+  const fileApi = `${config.apiUrl}/api/files`;
+
+  function getBashFileUpload() {
+    return `curl -X POST -F file=@file.jpg -H "Authorization: Bearer YOUR_API_KEY" "${fileApi}"`;
+  }
+
+  function getBashListFiles() {
+    return `curl -H "Authorization: YOUR_API_KEY" "${fileApi}"`;
+  }
+
   return (
     <>
       <h1>Api guide</h1>
@@ -10,16 +21,15 @@ export default function ApiGuideRoute() {
       <h2>curl</h2>
       <div>Upload a file from command line</div>
       <SyntaxHighlighter language="bash" style={theme}>
-        curl -X POST -F file=@file.jpg -H "Authorization: Bearer YOUR_API_KEY"
-        "http://localhost:3000/api/files"
+        {getBashFileUpload()}
       </SyntaxHighlighter>
+
       <Space h={'lg'} />
 
       <div>Fetch uploaded files</div>
       <SyntaxHighlighter language="bash" style={theme}>
-        curl -H "Authorization: YOUR_API_KEY" "http://localhost:3000/api/files"
+        {getBashListFiles()}
       </SyntaxHighlighter>
-
 
       <Space h={'lg'} />
 
@@ -37,7 +47,7 @@ const file = new File([blob], 'yourFileName.png')
 const formData = new FormData();
 formData.append('file', file);
 
-await axios.post('http://localhost:3000/api/files', formData, {
+await axios.post('${fileApi}', formData, {
     headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': \`Bearer \${API_KEY}\`

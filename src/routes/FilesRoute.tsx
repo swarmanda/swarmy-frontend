@@ -21,6 +21,7 @@ import { api } from '../api/Api.ts';
 import { formatBytes } from '../FileSizeFormatter.ts';
 import classes from './FilesRoute.module.css';
 import { Date } from '../components/Date.tsx';
+import { config } from '../config.tsx';
 
 export default function FilesRoute() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -53,12 +54,12 @@ export default function FilesRoute() {
 
   function openFile(hash: string) {
     const firstKey = apiKeysQuery.data[0];
-    window.open(`http://localhost:3000/files/${hash}?k=${firstKey.key}`, '_blank');
+    window.open(`${config.apiUrl}/files/${hash}?k=${firstKey.key}`, '_blank');
   }
 
   function getFileLink(hash: string) {
     const firstKey = apiKeysQuery.data[0];
-    return `http://localhost:3000/files/${hash}?k=${firstKey.key}`;
+    return `${config.apiUrl}/files/${hash}?k=${firstKey.key}`;
   }
 
   return (
