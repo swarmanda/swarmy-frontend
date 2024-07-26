@@ -5,7 +5,7 @@ interface ProfileState {
   organizationId: string;
 }
 
-export const useProfileStore = create<ProfileState | any>((set, get) => ({
+export const useProfileStore = create<ProfileState | any>((set) => ({
   email: null,
   organizationId: null,
   setProfile: (profile: ProfileState) => set(() => profile),

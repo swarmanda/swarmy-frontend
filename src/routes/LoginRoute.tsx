@@ -28,7 +28,7 @@ export default function LoginRoute() {
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (!!value ? null : 'Invalid password'),
+      password: (value) => (value ? null : 'Invalid password'),
     },
   });
 

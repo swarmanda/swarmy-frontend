@@ -27,7 +27,7 @@ export default function ApiKeysRoute() {
         icon: <IconCheck style={{ width: rem(20), height: rem(20) }} />,
         color: 'green',
       });
-    } catch (e: any) {
+    } catch (e) {
       notifications.show({
         title: 'Login failed',
         message: e.message,
@@ -50,7 +50,7 @@ export default function ApiKeysRoute() {
         icon: <IconCheck style={{ width: rem(20), height: rem(20) }} />,
         color: 'green',
       });
-    } catch (e: any) {
+    } catch (e) {
       notifications.show({
         title: 'Failed to revoke key',
         message: e.message,

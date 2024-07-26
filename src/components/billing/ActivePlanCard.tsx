@@ -3,10 +3,11 @@ import { IconAlertTriangle, IconCheck, IconSettings, IconTrash, IconX } from '@t
 import { useState } from 'react';
 import { api } from '../../api/Api.ts';
 import { notifications } from '@mantine/notifications';
+import { Plan } from './Plan.tsx';
 
 interface ActivePlanCardProps {
   isLoading: boolean;
-  plan: any;
+  plan: Plan;
   onCancelled: () => void
 }
 

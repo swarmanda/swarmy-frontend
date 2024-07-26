@@ -2,12 +2,12 @@ import { Slider } from '@mantine/core';
 import classes from './BillingConfigurator.module.css';
 import { Option } from './SubscriptionConfig.ts';
 
-function min(options: any) {
-  return Math.min(...options.map((o: any) => o.exp));
+function min(options: Option[]) {
+  return Math.min(...options.map((o) => o.exp));
 }
 
-function max(options: any) {
-  return Math.max(...options.map((o: any) => o.exp));
+function max(options: Option[]) {
+  return Math.max(...options.map((o) => o.exp));
 }
 
 interface SliderProps {

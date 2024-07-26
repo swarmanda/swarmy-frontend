@@ -1,4 +1,4 @@
-import { Container, Group, Anchor, Flex } from '@mantine/core';
+import { Anchor, Flex, Group } from '@mantine/core';
 import { Logo } from './Logo.tsx';
 
 const links = [

@@ -10,11 +10,7 @@ export default function RootRoute() {
   const { setProfile } = useProfileStore();
   const { accessToken } = useAuthStore();
   console.log('rendering root route');
-  const {
-    isLoading,
-    isError,
-    data: profileData,
-  } = useQuery({
+  const { data: profileData } = useQuery({
     queryKey: ['profile'],
     queryFn: api.getProfile,
     enabled: !!accessToken,

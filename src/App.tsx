@@ -88,7 +88,6 @@ function App() {
 
             <Route path="app" element={<ProtectedRoute />}>
               <Route index element={<Navigate to="files" />} />
-              {/*<Route path="profile" element={<ProfileRoute/>}/>*/}
               <Route path="files" element={<FilesRoute />} />
               <Route path="analytics" element={<AnalyticsRoute />} />
               <Route path="api-keys" element={<ApiKeysRoute />} />

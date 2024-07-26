@@ -63,7 +63,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
         color: 'green',
       });
       onUploaded && onUploaded();
-    } catch (e: any) {
+    } catch (e) {
       console.log(e)
       notifications.show({
         title: 'Upload failed',
