@@ -2,14 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface AuthState {
-  email: string;
-  organizationId: string;
+  accessToken: string | null;
+  organizationId: string | null;
+  setAccessToken: (token: string) => void;
+  signedIn: () => void;
 }
 
-export const useAuthStore = create<AuthState | any>(
+export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
       accessToken: '',
+      organizationId: null,
       setAccessToken: (token: string) => set(() => ({ accessToken: token })),
       signedIn: () => !!get().accessToken,
     }),

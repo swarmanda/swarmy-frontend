@@ -3,13 +3,14 @@ import { persist } from 'zustand/middleware';
 
 interface ThemeState {
   theme: 'dark' | 'light';
+  setTheme: (theme: 'dark' | 'light') => void;
 }
 
-export const useThemeStore = create<ThemeState | any>(
+export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       theme: 'dark',
-      setTheme: (theme: string) => set(() => ({ theme: theme })),
+      setTheme: (theme: 'dark' | 'light') => set(() => ({ theme })),
     }),
     {
       name: 'themeStorage',

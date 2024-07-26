@@ -51,6 +51,8 @@ export default function SignupRoute() {
         color: 'red',
       });
       return
+    } finally {
+      setSubmitting(false)
     }
     try {
       const token = await api.login(email, password);
@@ -59,7 +61,6 @@ export default function SignupRoute() {
     } catch (e) {
       console.error("Auto login failed", e);
       navigate('/login');
-
     }
   }
 

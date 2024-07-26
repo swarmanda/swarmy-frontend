@@ -40,11 +40,11 @@ export default function AnalyticsRoute() {
     );
   }
 
-  const usedStorage = metricsQuery.data.find(m => m.type === 'UPLOADED_BYTES').used
-  const usedBandwidth = metricsQuery.data.find(m => m.type === 'DOWNLOADED_BYTES').used
+  const usedStorage = metricsQuery?.data?.find(m => m.type === 'UPLOADED_BYTES')?.used || 0
+  const usedBandwidth = metricsQuery?.data?.find(m => m.type === 'DOWNLOADED_BYTES')?.used || 0
 
-  const availableStorage = metricsQuery.data.find(m => m.type === 'UPLOADED_BYTES').available
-  const availableBandwidth = metricsQuery.data.find(m => m.type === 'DOWNLOADED_BYTES').available
+  const availableStorage = metricsQuery?.data?.find(m => m.type === 'UPLOADED_BYTES')?.available || 0
+  const availableBandwidth = metricsQuery?.data?.find(m => m.type === 'DOWNLOADED_BYTES')?.available || 0
 
   return (
     <>
