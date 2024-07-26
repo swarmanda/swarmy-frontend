@@ -7,33 +7,29 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export function HeroSection() {
-
   useEffect(() => {
-    console.debug("Drawing topology")
+    console.debug('Drawing topology');
     VANTA.TOPOLOGY({
-      el: "#hero-canvas",
+      el: '#hero-canvas',
       mouseControls: true,
       touchControls: true,
       gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
+      minHeight: 200.0,
+      minWidth: 200.0,
+      scale: 1.0,
+      scaleMobile: 1.0,
       color: '#1ee783',
-      backgroundColor: '#1d252c'
-    })
-  }, [])
-
+      backgroundColor: '#1d252c',
+    });
+  }, []);
 
   return (
-    <Flex size="md"  className={classes.container}>
-
+    <Flex className={classes.container}>
       <div id="hero-canvas" className={classes.heroCanvas}></div>
 
       <div className={classes.inner}>
         <div className={classes.content}>
           <Logo size={80} />
-
           <Flex justify={'flex-start'} align={'end'}>
             <SwarmLogo className={classes.logo} height={40} />
             <Title c={'white'} className={classes.title}>
@@ -55,5 +51,3 @@ export function HeroSection() {
     </Flex>
   );
 }
-
-

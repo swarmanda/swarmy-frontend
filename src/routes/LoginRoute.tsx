@@ -34,7 +34,7 @@ export default function LoginRoute() {
 
   const { setAccessToken } = useAuthStore();
 
-  async function onLoginPressed({ email, password }) {
+  async function onLoginPressed({ email, password } : {email: string; password: string}) {
     try {
       const token = await api.login(email, password);
       setAccessToken(token);

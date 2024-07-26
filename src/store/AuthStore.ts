@@ -5,7 +5,7 @@ interface AuthState {
   accessToken: string | null;
   organizationId: string | null;
   setAccessToken: (token: string) => void;
-  signedIn: () => void;
+  signedIn: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
