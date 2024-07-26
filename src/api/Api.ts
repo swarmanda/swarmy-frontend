@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/AuthStore.ts';
 
 class Api {
   constructor() {
-    axios.defaults.baseURL = 'http://localhost:3000';
+    axios.defaults.baseURL = import.meta.env.VITE_API_URL;
     axios.defaults.headers.post['Content-Type'] = 'application/json';
 
     axios.interceptors.request.use(
@@ -37,8 +37,7 @@ class Api {
 
   async login(email: string, password: string) {
     const response = await axios.post('/auth/login', { email, password });
-    axios.defaults.headers.common['Authorization'] =
-      `Bearer ${response.data.access_token}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
     return response.data.access_token;
   }
 
@@ -72,7 +71,6 @@ class Api {
     });
     return data;
   }
-
 
   async uploadFileApi(file: File) {
     const formData = new FormData();
