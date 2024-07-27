@@ -1,15 +1,8 @@
 import { AppShell, Burger, Flex, NavLink, Space, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { NavLink as RouterNavLink } from 'react-router-dom';
-import {
-  IconChartBar, IconCode,
-  IconFileInvoice,
-  IconFileStack,
-  IconHexagonPlus,
-  IconKey,
-} from '@tabler/icons-react';
+import { IconChartBar, IconCode, IconFileInvoice, IconFileStack, IconHexagonPlus, IconKey } from '@tabler/icons-react';
 import UserMenu from './UserMenu.tsx';
-import ThemeSwitcher from './ThemeSwitcher.tsx';
 
 export default function LoggedInLayout({ children }) {
   const [opened, { toggle }] = useDisclosure();
@@ -29,15 +22,10 @@ export default function LoggedInLayout({ children }) {
         <AppShell.Header withBorder={false}>
           <Flex justify="space-between" align="center" p={'md'}>
             <div>
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                hiddenFrom="sm"
-                size="sm"
-              />
+              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             </div>
             <Flex justify="flex-end" align="center" gap={12}>
-              <ThemeSwitcher />
+              {/*<ThemeSwitcher />*/}
               <UserMenu />
             </Flex>
           </Flex>
