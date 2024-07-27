@@ -1,4 +1,4 @@
-import { Avatar, Menu, rem } from '@mantine/core';
+import { Avatar, Menu, rem, Text } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import { useAuthStore } from './store/AuthStore.ts';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useProfileStore } from './store/ProfileStore.ts';
 export default function UserMenu() {
   const navigate = useNavigate();
   const { setAccessToken } = useAuthStore();
-  const { clearProfile } = useProfileStore();
+  const { email, clearProfile } = useProfileStore();
 
   function onLogoutPressed() {
     setAccessToken('');
@@ -16,18 +16,19 @@ export default function UserMenu() {
   }
 
   return (
-    <Menu shadow="md" width={200}>
+    <Menu shadow="md" width={250}>
       <Menu.Target>
         <Avatar variant="light" radius="xl" size="48" />
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item
-          leftSection={
-            <IconLogout style={{ width: rem(14), height: rem(14) }} />
-          }
-          onClick={onLogoutPressed}
-        >
+        <Menu.Label>
+          <Text size={'xs'} fw={600}>
+            {email}
+          </Text>
+        </Menu.Label>
+        <Menu.Divider />
+        <Menu.Item leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />} onClick={onLogoutPressed}>
           Logout
         </Menu.Item>
       </Menu.Dropdown>
