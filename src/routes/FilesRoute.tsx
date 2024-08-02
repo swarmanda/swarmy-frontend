@@ -1,6 +1,7 @@
 import { FileUploader } from '../FileUploader.tsx';
 import {
   ActionIcon,
+  Alert,
   Button,
   Center,
   CopyButton,
@@ -12,9 +13,17 @@ import {
   rem,
   Skeleton,
   Table,
+  Text,
   Tooltip,
 } from '@mantine/core';
-import { IconCheck, IconCopy, IconExternalLink, IconFileDigit, IconUpload } from '@tabler/icons-react';
+import {
+  IconAlertTriangle,
+  IconCheck,
+  IconCopy,
+  IconExternalLink,
+  IconFileDigit,
+  IconUpload,
+} from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { api } from '../api/Api.ts';
@@ -22,10 +31,12 @@ import { formatBytes } from '../FileSizeFormatter.ts';
 import classes from './FilesRoute.module.css';
 import { Date } from '../components/Date.tsx';
 import { config } from '../config.tsx';
+import { useProfileStore } from '../store/ProfileStore.ts';
 
 export default function FilesRoute() {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
+  const { postageBatchStatus } = useProfileStore();
   console.log('rendering files route');
 
   const [fileReferencesQuery, apiKeysQuery] = useQueries({
@@ -42,6 +53,7 @@ export default function FilesRoute() {
   });
 
   const isLoading = apiKeysQuery.isLoading || fileReferencesQuery.isLoading;
+  const canUpload = postageBatchStatus === 'CREATED';
 
   async function onUploaded() {
     await queryClient.invalidateQueries({ queryKey: ['files'] });
@@ -62,16 +74,39 @@ export default function FilesRoute() {
     return `${config.apiUrl}/files/${hash}?k=${firstKey.key}`;
   }
 
+  function UploadDisabledAlert() {
+    if (postageBatchStatus === 'CREATED') {
+      return;
+    }
+    return (
+      <Alert py={'sm'} mb={'xl'} icon={<IconAlertTriangle />} variant={'filled'} color={'yellow.8'} fw={600}>
+        {postageBatchStatus === null && (
+          <Text>Subscription needed to upload files.</Text>
+        )}
+        {postageBatchStatus === 'CREATING' && (
+          <Text>Connecting your account with Swarm. This can take up to a few minutes.</Text>
+        )}
+        {(postageBatchStatus === 'FAILED_TO_TOP_UP' ||
+          postageBatchStatus === 'FAILED_TO_DILUTE' ||
+          postageBatchStatus === 'FAILED_TO_CREATE') && (
+          <Text>Account issue detected. Uploading is suspended. Please contact support.</Text>
+        )}
+      </Alert>
+    );
+  }
+
   return (
     <>
       <div>
         <h1>Files</h1>
 
         <Flex justify="flex-end" px={'lg'} py={'xl'}>
-          <Button onClick={open} rightSection={<IconUpload size={'1rem'} />}>
+          <Button disabled={!canUpload} onClick={open} rightSection={<IconUpload size={'1rem'} />}>
             Upload files
           </Button>
         </Flex>
+
+        {UploadDisabledAlert()}
 
         <Modal opened={opened} onClose={close} transitionProps={{ transition: 'fade', duration: 200 }}>
           <FileUploader onUploaded={onUploaded} />

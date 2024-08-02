@@ -61,9 +61,12 @@ class Api {
     return data;
   }
 
-  async uploadFile(file: File) {
+  async uploadFile(file: File, uploadAsWebsite?: boolean) {
     const formData = new FormData();
     formData.append('file', file);
+    if (uploadAsWebsite) {
+      formData.append('website', 'true');
+    }
     const { data } = await axios.post('/files', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

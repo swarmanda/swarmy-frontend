@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Button,
-  Center,
+  Center, Checkbox,
   CloseButton,
   Container,
   Group,
@@ -37,7 +37,12 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
   const form = useForm<FormValues>({
     initialValues: { files: [] },
   });
+  const [uploadAsWebsite, setUploadAsWebsite] = useState(false);
 
+
+  function isSelectedFileTar() {
+    return form.values.files && form.values.files[0].name.endsWith(".tar")
+  }
   const selectedFiles = form.values.files.map((file, index) => (
     <Text key={file.name}>
       <b>{file.name}</b> {formatBytes(file.size)}
@@ -55,7 +60,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
 
   async function submit() {
     try {
-      await api.uploadFile(form.values.files[0]);
+      await api.uploadFile(form.values.files[0], uploadAsWebsite);
       notifications.show({
         title: 'Upload successful',
         message: `${form.values.files.length} files uploaded`,
@@ -146,6 +151,15 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
             Selected file:
           </Title>
           <Container>{selectedFiles}</Container>
+          {isSelectedFileTar() && (
+            <Checkbox
+              mt="lg"
+              ml="md"
+              label={"Upload as website"}
+              checked={uploadAsWebsite}
+              onChange={(event) => setUploadAsWebsite(event.currentTarget.checked)}
+            />
+          )}
 
           <Center mt={'xl'}>
             <Button onClick={submit}>Upload</Button>

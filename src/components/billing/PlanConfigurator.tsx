@@ -37,10 +37,10 @@ export function PlanConfigurator() {
     if (subscriptionConfigQuery.isSuccess && activePlanQuery.isSuccess) {
       const config = subscriptionConfigQuery.data;
 
-      const defaultBandwidth = getSubscribedBandwidth() || config.bandwidth.defaultOption;
+      const defaultBandwidth = getSubscribedBandwidth() === undefined ? config.bandwidth.defaultOption : getSubscribedBandwidth();
       setBandwidth(defaultBandwidth);
 
-      const defaultStorageCapacity = getSubscribedStorageCapacity() || config.bandwidth.defaultOption;
+      const defaultStorageCapacity = getSubscribedStorageCapacity() === undefined ? config.bandwidth.defaultOption : getSubscribedStorageCapacity();
       setCapacity(defaultStorageCapacity);
 
       setLoaded(true);
@@ -62,7 +62,7 @@ export function PlanConfigurator() {
   }
 
   function isUpgrade() {
-    return !isFreePlan() && (capacity > getSubscribedStorageCapacity() || bandwidth > getSubscribedBandwidth());
+    return !isFreePlan() && (capacity > getSubscribedStorageCapacity()! || bandwidth > getSubscribedBandwidth()!);
   }
 
   function getSubscribedStorageCapacity() {
@@ -70,7 +70,7 @@ export function PlanConfigurator() {
     if (subscribedValue === 0) {
       return 0;
     }
-    return getStorageCapacityBySize(config, subscribedValue)?.exp || 0;
+    return getStorageCapacityBySize(config, subscribedValue)?.exp;
   }
 
   function getSubscribedBandwidth() {
@@ -78,7 +78,7 @@ export function PlanConfigurator() {
     if (subscribedValue === 0) {
       return 0;
     }
-    return getBandwidthBySize(config, subscribedValue)?.exp || 0;
+    return getBandwidthBySize(config, subscribedValue)?.exp;
   }
 
   function onSubscriptionCancelled() {
