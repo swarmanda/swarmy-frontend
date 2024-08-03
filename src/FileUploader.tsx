@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Button,
-  Center, Checkbox,
+  Center,
+  Checkbox,
   CloseButton,
   Container,
   Group,
@@ -11,12 +12,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
-import {
-  IconCheck,
-  IconCloudUpload,
-  IconDownload,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCheck, IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
 import classes from './FileUploader.module.css';
 import { useForm } from '@mantine/form';
 import { api } from './api/Api.ts';

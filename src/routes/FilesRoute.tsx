@@ -22,6 +22,7 @@ import {
   IconCopy,
   IconExternalLink,
   IconFileDigit,
+  IconFileTypeHtml,
   IconUpload,
 } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
@@ -64,9 +65,14 @@ export default function FilesRoute() {
     return !isLoading && apiKeysQuery.data.length > 0;
   }
 
-  function openFile(hash: string) {
-    const firstKey = apiKeysQuery.data[0];
-    window.open(`${config.apiUrl}/files/${hash}?k=${firstKey.key}`, '_blank');
+  function openFile(hash: string, isWebsite: boolean) {
+    const firstKey = apiKeysQuery.data.find((k) => k.status === 'ACTIVE');
+    let url = `${config.apiUrl}/files/${hash}`;
+    if (isWebsite) {
+      url = `${url}/`;
+    }
+    url = `${url}?k=${firstKey.key}`;
+    window.open(url, '_blank');
   }
 
   function getFileLink(hash: string) {
@@ -80,9 +86,7 @@ export default function FilesRoute() {
     }
     return (
       <Alert py={'sm'} mb={'xl'} icon={<IconAlertTriangle />} variant={'filled'} color={'yellow.8'} fw={600}>
-        {postageBatchStatus === null && (
-          <Text>Subscription needed to upload files.</Text>
-        )}
+        {postageBatchStatus === null && <Text>Subscription needed to upload files.</Text>}
         {postageBatchStatus === 'CREATING' && (
           <Text>Connecting your account with Swarm. This can take up to a few minutes.</Text>
         )}
@@ -93,6 +97,16 @@ export default function FilesRoute() {
         )}
       </Alert>
     );
+  }
+
+  function getThumbnail(file) {
+    if (file.thumbnailBase64) {
+      return <Image height={'50px'} fit="contain" src={`data:image/webp;base64,${file.thumbnailBase64}`} />;
+    }
+    if (file.isWebsite) {
+      return <IconFileTypeHtml size={'32px'} />;
+    }
+    return <IconFileDigit size={'32px'} />;
   }
 
   return (
@@ -137,17 +151,7 @@ export default function FilesRoute() {
                   {fileReferencesQuery.data.map((file) => (
                     <Table.Tr key={file._id}>
                       <Table.Td>
-                        <Center>
-                          {file.thumbnailBase64 ? (
-                            <Image
-                              height={'50px'}
-                              fit="contain"
-                              src={`data:image/webp;base64,${file.thumbnailBase64}`}
-                            />
-                          ) : (
-                            <IconFileDigit size={'32px'} />
-                          )}
-                        </Center>
+                        <Center>{getThumbnail(file)}</Center>
                       </Table.Td>
                       <Table.Td>{file.name}</Table.Td>
                       <Table.Td>
@@ -158,7 +162,7 @@ export default function FilesRoute() {
                               disabled={!hasKey()}
                               variant={'subtle'}
                               color={'gray'}
-                              onClick={() => openFile(file.hash)}
+                              onClick={() => openFile(file.hash, file.isWebsite)}
                             >
                               <IconExternalLink style={{ width: rem(16) }} />
                             </ActionIcon>
