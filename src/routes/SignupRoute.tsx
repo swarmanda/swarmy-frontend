@@ -1,17 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api';
 import PublicLayout from '../PublicLayout';
-import {
-  Anchor,
-  Button,
-  Container,
-  Paper,
-  PasswordInput,
-  rem,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Anchor, Button, Container, Paper, PasswordInput, rem, Space, Text, TextInput, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
@@ -31,16 +21,14 @@ export default function SignupRoute() {
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) =>
-        value.length >= 8 ? null : 'Password should be at least 8 characters',
-      passwordConfirmation: (value, values) =>
-        value === values.password ? null : 'Passwords do not match',
+      password: (value) => (value.length >= 8 ? null : 'Password should be at least 8 characters'),
+      passwordConfirmation: (value, values) => (value === values.password ? null : 'Passwords do not match'),
     },
   });
 
   async function onSubmit({ email, password }) {
     try {
-      setSubmitting(true)
+      setSubmitting(true);
       await api.signup({ email, password });
     } catch (e) {
       console.error(e);
@@ -50,23 +38,23 @@ export default function SignupRoute() {
         icon: <IconX style={{ width: rem(20), height: rem(20) }} />,
         color: 'red',
       });
-      return
+      return;
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
     try {
       const token = await api.login(email, password);
       setAccessToken(token);
       navigate('/app');
     } catch (e) {
-      console.error("Auto login failed", e);
+      console.error('Auto login failed', e);
       navigate('/login');
     }
   }
 
   return (
     <PublicLayout>
-      <Container size={420} my={40}>
+      <Container size={480} my={40}>
         <Title ta="center">Create Account</Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Already have an account?{' '}
@@ -100,11 +88,24 @@ export default function SignupRoute() {
               key={form.key('passwordConfirmation')}
               {...form.getInputProps('passwordConfirmation')}
             />
-            <Button disabled={submitting} fullWidth mt="xl" type="submit">
+
+            <Text mt={'md'} c={'gray.5'} size={'xs'}>
+              By signing up you agree to the
+              <Anchor c={'green.5'} mx={'4'} component={RouterNavLink} to={'/terms-of-service'}>
+                Terms of Service
+              </Anchor>
+              and
+              <Anchor c={'green.5'} ml={4} component={RouterNavLink} to={'/privacy-policy'}>
+                Privacy Policy
+              </Anchor>.
+            </Text>
+
+            <Button disabled={submitting} fullWidth mt="lg" type="submit">
               Sign up
             </Button>
           </Paper>
         </form>
+        <Space h={50}/>
       </Container>
     </PublicLayout>
   );

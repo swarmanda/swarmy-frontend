@@ -1,4 +1,4 @@
-import { Anchor, Flex, Group, Text } from '@mantine/core';
+import { Anchor, Flex, Text } from '@mantine/core';
 import { Logo } from './Logo.tsx';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
