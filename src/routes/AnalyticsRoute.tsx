@@ -1,7 +1,7 @@
 import { useQueries } from '@tanstack/react-query';
 import { api } from '../api/Api.ts';
 import { UsageMetricsCard } from '../UsageMetricsCard.tsx';
-import { SimpleGrid, Skeleton } from '@mantine/core';
+import { Flex, Group, SimpleGrid, Skeleton } from '@mantine/core';
 import classes from './AnalyticsRoute.module.css';
 
 export default function AnalyticsRoute() {
@@ -25,17 +25,15 @@ export default function AnalyticsRoute() {
     return (
       <>
         <h1>Analytics</h1>
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-
-        <Skeleton height={8} mt={26} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
-        <Skeleton height={8} mt={6} width={'50%'} maw={500} radius="xl" />
+        <SimpleGrid
+          className={classes.grid}
+          cols={{ base: 1, md: 2 }}
+          spacing={{ base: 10, sm: 'xl' }}
+          verticalSpacing={{ base: 'md', sm: 'xl' }}
+        >
+          <Skeleton height={120} mt={6} maw={500} radius="sm" />
+          <Skeleton height={120} mt={6} maw={500} radius="sm" />
+        </SimpleGrid>
       </>
     );
   }

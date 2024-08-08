@@ -13,8 +13,10 @@ import { ForgotPasswordRoute } from './routes/ForgotPasswordRoute.tsx';
 import SignupRoute from './routes/SignupRoute.tsx';
 import { NotFoundRoute } from './routes/NotFoundRoute.tsx';
 import ProtectedRoute from './routes/ProtectedRoute.tsx';
-import MockPaymentPage from './routes/MockPaymentPage.tsx';
 import ApiGuideRoute from './routes/ApiGuideRoute.tsx';
+import PrivacyRoute from './routes/PrivacyRoute.tsx';
+import TermsOfServiceRoute from './routes/TermsOfServiceRoute.tsx';
+import ContactRoute from './routes/ContactRoute.tsx';
 
 function App() {
   const greenColors: MantineColorsTuple = [
@@ -82,9 +84,11 @@ function App() {
           <Route path="/" element={<RootRoute />}>
             <Route index element={<HomeRoute />} />
             <Route path="login" element={<LoginRoute />} />
+            <Route path="privacy" element={<PrivacyRoute />} />
+            <Route path="terms-of-service" element={<TermsOfServiceRoute />} />
+            <Route path="contact" element={<ContactRoute />} />
             <Route path="forgot-password" element={<ForgotPasswordRoute />} />
             <Route path="signup" element={<SignupRoute />} />
-            <Route path="/mockPayment" element={<MockPaymentPage />} />
 
             <Route path="app" element={<ProtectedRoute />}>
               <Route index element={<Navigate to="files" />} />

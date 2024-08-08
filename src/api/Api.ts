@@ -136,6 +136,21 @@ class Api {
     const { data } = await axios.post('/payment/form-notification', { merchantTransactionId });
     return data;
   }
+
+  async getPrivacyPolicy() {
+    const { data } = await axios.get('/static-text/privacy-policy');
+    return data
+  }
+
+  async getTermsOfService() {
+    const { data } = await axios.get('/static-text/terms-of-service');
+    return data
+  }
+
+  async getContactText() {
+    const { data } = await axios.get('/static-text/contact');
+    return data
+  }
 }
 
 export const api = new Api();

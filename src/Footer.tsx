@@ -1,29 +1,33 @@
-import { Anchor, Flex, Group } from '@mantine/core';
+import { Anchor, Flex, Group, Text } from '@mantine/core';
 import { Logo } from './Logo.tsx';
-
-const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'Privacy' },
-];
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 export function Footer() {
-  const items = links.map((link) => (
-    <Anchor<'a'>
-      c="dimmed"
-      key={link.label}
-      href={link.link}
-      onClick={(event) => event.preventDefault()}
-      size="sm"
-    >
-      {link.label}
-    </Anchor>
-  ));
-
   return (
     <>
       <Flex p={20} justify={'space-between'}>
         <Logo ml={10} c={'dimmed'} size={24} />
-        <Group>{items}</Group>
+        <Flex gap={'xs'} align={'center'}>
+          <Anchor size={'sm'} component={RouterNavLink} to={'/contact'}>
+            Contact
+          </Anchor>
+
+          <Text size={'sm'} c={'gray.5'}>
+            |
+          </Text>
+
+          <Anchor size={'sm'} component={RouterNavLink} to={'/privacy'}>
+            Privacy
+          </Anchor>
+
+          <Text size={'sm'} c={'gray.5'}>
+            |
+          </Text>
+
+          <Anchor size={'sm'} component={RouterNavLink} to={'/terms-of-service'}>
+            Terms of Service
+          </Anchor>
+        </Flex>
       </Flex>
     </>
   );
