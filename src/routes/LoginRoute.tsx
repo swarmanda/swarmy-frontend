@@ -1,18 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api';
 import PublicLayout from '../PublicLayout';
-import {
-  Anchor,
-  Button,
-  Container,
-  Group,
-  Paper,
-  PasswordInput,
-  rem,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Anchor, Button, Container, Group, Paper, PasswordInput, rem, Text, TextInput, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { useAuthStore } from '../store/AuthStore.ts';
@@ -34,7 +23,7 @@ export default function LoginRoute() {
 
   const { setAccessToken } = useAuthStore();
 
-  async function onLoginPressed({ email, password } : {email: string; password: string}) {
+  async function onLoginPressed({ email, password }: { email: string; password: string }) {
     try {
       const token = await api.login(email, password);
       setAccessToken(token);
@@ -43,8 +32,7 @@ export default function LoginRoute() {
       console.error(e);
       notifications.show({
         title: 'Login failed',
-        message:
-          e.response.status === 401 ? 'Invalid email or password' : e.message,
+        message: e.response.status === 401 ? 'Invalid email or password' : e.message,
         icon: <IconX style={{ width: rem(20), height: rem(20) }} />,
         color: 'red',
       });
@@ -53,7 +41,7 @@ export default function LoginRoute() {
 
   return (
     <PublicLayout>
-      <Container size={420} my={40}>
+      <Container size={420} my={10}>
         <Title ta="center">Welcome!</Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Do not have an account yet?{' '}

@@ -1,4 +1,4 @@
-import { Anchor, AppShell, Button, Flex, Grid, Text } from '@mantine/core';
+import { Anchor, AppShell, Button, Flex, Space, Text } from '@mantine/core';
 import { Link, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import { IconLogin } from '@tabler/icons-react';
 import { Logo } from './Logo.tsx';
@@ -14,22 +14,19 @@ export default function PublicLayout({ children }) {
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <Grid justify="space-between" align="center" ml={20}>
-          <Grid.Col span={3}>
-            <Logo link size={30} />
-          </Grid.Col>
-          <Grid.Col span={3}>
-            <Flex mr={20} mih={60} gap="md" justify="end" align="center" direction="row" wrap="wrap">
-              <Button component={Link} to={signedIn ? '/app' : '/login'} rightSection={<IconLogin size={20} />}>
-                Sign in
-              </Button>
-            </Flex>
-          </Grid.Col>
-        </Grid>
+        <Flex justify="space-between" align="center" ml={20}>
+          <Logo link size={26} />
+          <Flex mr={20} mih={60} gap="md" justify="end" align="center" direction="row" wrap="wrap">
+            <Button component={Link} to={signedIn ? '/app' : '/login'} rightSection={<IconLogin size={20} />}>
+              Sign in
+            </Button>
+          </Flex>
+        </Flex>
       </AppShell.Header>
 
       <AppShell.Main {...(location.pathname === '/' ? { p: 0 } : {})}>
         {children}
+        <Space h={'xl'} />
       </AppShell.Main>
       <CookieConsent
         buttonStyle={{

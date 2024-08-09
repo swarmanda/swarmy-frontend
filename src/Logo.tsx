@@ -11,7 +11,7 @@ export function Logo({ size = rem(50), color = 'white', link = false, ...rest }:
   if (link) {
     return (
       <Anchor style={{ textDecoration: 'none' }} size="sm" component={RouterNavLink} to={'/'}>
-        <Title c={color} size={size} mb={10} {...rest}>
+        <Title c={color} size={size} mb={5} {...rest}>
           Swarmy
         </Title>
       </Anchor>
@@ -20,7 +20,7 @@ export function Logo({ size = rem(50), color = 'white', link = false, ...rest }:
 
   return (
     <>
-      <Title c={color} size={size} mb={10} {...rest}>
+      <Title c={color} size={size} mb={5} {...rest}>
         Swarmy
       </Title>
     </>

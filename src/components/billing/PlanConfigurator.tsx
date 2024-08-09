@@ -1,4 +1,4 @@
-import { Button, Card, Container, Space, Text, Title } from '@mantine/core';
+import { Button, Card, Container, ScrollArea, Space, Text, Title } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import { api } from '../../api/Api.ts';
 import { useEffect, useState } from 'react';
@@ -37,10 +37,12 @@ export function PlanConfigurator() {
     if (subscriptionConfigQuery.isSuccess && activePlanQuery.isSuccess) {
       const config = subscriptionConfigQuery.data;
 
-      const defaultBandwidth = getSubscribedBandwidth() === undefined ? config.bandwidth.defaultOption : getSubscribedBandwidth();
+      const defaultBandwidth =
+        getSubscribedBandwidth() === undefined ? config.bandwidth.defaultOption : getSubscribedBandwidth();
       setBandwidth(defaultBandwidth);
 
-      const defaultStorageCapacity = getSubscribedStorageCapacity() === undefined ? config.bandwidth.defaultOption : getSubscribedStorageCapacity();
+      const defaultStorageCapacity =
+        getSubscribedStorageCapacity() === undefined ? config.bandwidth.defaultOption : getSubscribedStorageCapacity();
       setCapacity(defaultStorageCapacity);
 
       setLoaded(true);
@@ -86,74 +88,76 @@ export function PlanConfigurator() {
   }
 
   return (
-    <Container py="xl">
+    <Container px={0} py="xl">
       <ActivePlanCard
         plan={activePlanQuery.data}
         isLoading={activePlanQuery.isLoading}
         onCancelled={onSubscriptionCancelled}
       />
       <Space h="xl" />
-      <Card withBorder bg={'gray.8'} shadow="md" radius="md" padding="xl">
-        <Title order={2}>Plan configurator</Title>
-        <Space h="xl" />
+      <ScrollArea miw={700}>
+        <Card withBorder bg={'gray.8'} shadow="md" radius="md" padding="xl">
+          <Title order={2}>Plan configurator</Title>
+          <Space h="xl" />
 
-        {!isLoaded ? (
-          <BillingConfiguratorSkeleton />
-        ) : (
-          <>
-            <Title order={4} mb={6}>
-              Storage capacity
-            </Title>
+          {!isLoaded ? (
+            <BillingConfiguratorSkeleton />
+          ) : (
+            <>
+              <Title order={4} mb={6}>
+                Storage capacity
+              </Title>
 
-            <Text size={'sm'} c={'dimmed'}>
-              Total size of data that can be stored by Swarmy. Can be upgraded later.
-            </Text>
-            <Text size={'sm'} c={'dimmed'}>
-              {config.currency} {config.storageCapacity.pricePerGb.toFixed(2)} per GB
-            </Text>
+              <Text size={'sm'} c={'dimmed'}>
+                Total size of data that can be stored by Swarmy. Can be upgraded later.
+              </Text>
+              <Text size={'sm'} c={'dimmed'}>
+                {config.currency} {config.storageCapacity.pricePerGb.toFixed(2)} per GB
+              </Text>
 
-            <Space h="md" />
+              <Space h="md" />
 
-            <SubscriptionSlider
-              options={config.storageCapacity.options}
-              default={config.storageCapacity.defaultOption}
-              value={capacity}
-              minSelection={getSubscribedStorageCapacity()}
-              onChange={setCapacity}
-            />
+              <SubscriptionSlider
+                options={config.storageCapacity.options}
+                default={config.storageCapacity.defaultOption}
+                value={capacity}
+                minSelection={getSubscribedStorageCapacity()}
+                onChange={setCapacity}
+              />
 
-            <Title order={4} mb={6} mt={48}>
-              Bandwidth
-            </Title>
+              <Title order={4} mb={6} mt={48}>
+                Bandwidth
+              </Title>
 
-            <Text size={'sm'} c={'dimmed'}>
-              Size of data that can be downloaded in a month. Can be upgraded later.
-            </Text>
-            <Text size={'sm'} c={'dimmed'}>
-              {config.currency} {config.bandwidth.pricePerGb.toFixed(2)} per GB
-            </Text>
-            <Space h="md" />
-            <SubscriptionSlider
-              options={config.bandwidth.options}
-              default={config.bandwidth.defaultOption}
-              value={bandwidth}
-              minSelection={getSubscribedBandwidth()}
-              onChange={setBandwidth}
-            />
+              <Text size={'sm'} c={'dimmed'}>
+                Size of data that can be downloaded in a month. Can be upgraded later.
+              </Text>
+              <Text size={'sm'} c={'dimmed'}>
+                {config.currency} {config.bandwidth.pricePerGb.toFixed(2)} per GB
+              </Text>
+              <Space h="md" />
+              <SubscriptionSlider
+                options={config.bandwidth.options}
+                default={config.bandwidth.defaultOption}
+                value={bandwidth}
+                minSelection={getSubscribedBandwidth()}
+                onChange={setBandwidth}
+              />
 
-            <Title order={4} mb={6} mt={64}>
-              Price
-            </Title>
+              <Title order={4} mb={6} mt={64}>
+                Price
+              </Title>
 
-            <SubscriptionSummary config={config} storageCapacity={capacity} bandwidth={bandwidth} />
-            <Space h="xl" />
+              <SubscriptionSummary config={config} storageCapacity={capacity} bandwidth={bandwidth} />
+              <Space h="xl" />
 
-            <Button disabled={!isLoaded || (!isUpgrade() && !isFreePlan())} onClick={() => startSubscription()}>
-              {isFreePlan() ? 'Subscribe' : 'Upgrade Subscription'}
-            </Button>
-          </>
-        )}
-      </Card>
+              <Button disabled={!isLoaded || (!isUpgrade() && !isFreePlan())} onClick={() => startSubscription()}>
+                {isFreePlan() ? 'Subscribe' : 'Upgrade Subscription'}
+              </Button>
+            </>
+          )}
+        </Card>
+      </ScrollArea>
     </Container>
   );
 }

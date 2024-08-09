@@ -18,7 +18,7 @@ export default function UserMenu() {
   return (
     <Menu shadow="md" width={250}>
       <Menu.Target>
-        <Avatar variant="light" radius="xl" size="48" />
+        <Avatar variant="transparent" radius="xl" size="48" />
       </Menu.Target>
 
       <Menu.Dropdown>

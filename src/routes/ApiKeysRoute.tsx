@@ -65,7 +65,6 @@ export default function ApiKeysRoute() {
     <>
       <h1>Api keys</h1>
       <div>
-        {/*{JSON.stringify(data)}*/}
         <Flex justify="flex-end" px={'lg'} py={'xl'}>
           <Button onClick={generateKey} rightSection={<IconPlus size={'1.1rem'} />}>
             Generate Key
@@ -83,7 +82,7 @@ export default function ApiKeysRoute() {
         </Modal>
 
         {isSuccess && (
-          <Flex px={'lg'}>
+          <Table.ScrollContainer minWidth={500} px={'lg'}>
             <Table verticalSpacing={'md'}>
               <Table.Thead>
                 <Table.Tr>
@@ -117,7 +116,7 @@ export default function ApiKeysRoute() {
                 ))}
               </Table.Tbody>
             </Table>
-          </Flex>
+          </Table.ScrollContainer>
         )}
       </div>
     </>

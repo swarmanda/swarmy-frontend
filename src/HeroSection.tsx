@@ -1,4 +1,4 @@
-import { Anchor, Button, Center, Flex, Group, rem, Space, Text } from '@mantine/core';
+import { Anchor, Button, Flex, Group, rem, Space, Text } from '@mantine/core';
 // import image from './image.svg';
 import classes from './HeroSection.module.css';
 import { SwarmLogo } from './SwarmLogo.tsx';
@@ -16,8 +16,8 @@ export function HeroSection() {
       gyroControls: false,
       minHeight: 200.0,
       minWidth: 200.0,
-      scale: 1.0,
-      scaleMobile: 1.0,
+      scale: 3.0,
+      scaleMobile: 3.0,
       color: '#1ee783',
       backgroundColor: '#1d252c',
     });
@@ -31,7 +31,7 @@ export function HeroSection() {
         <div>
           <Flex justify={'flex-start'} align={'start'} direction={'column'} className={classes.title}>
             <Logo size={rem(50)} />
-            <Space h={'md'}/>
+            <Space h={'md'} />
             <Flex className={classes.subTitle} align={'end'}>
               <SwarmLogo className={classes.logo} height={40} />
               <Text fz={30} c={{ base: 'white' }}>
@@ -42,7 +42,13 @@ export function HeroSection() {
             <Flex direction={'column'}>
               <Text c="dimmed" mt="md"></Text>
 
-              <Text fw={600}>A service that makes it simple to store and retrieve media on <Anchor target={'_blank'} href={'https://www.ethswarm.org/'}>Swarm</Anchor>.</Text>
+              <Text fw={600}>
+                A service that makes it simple to store and retrieve media on{' '}
+                <Anchor target={'_blank'} href={'https://www.ethswarm.org/'}>
+                  Swarm
+                </Anchor>
+                .
+              </Text>
 
               <Group mt={30}>
                 <Button radius="sm" size="md" className={classes.control} component={RouterNavLink} to={'/signup'}>
@@ -51,8 +57,6 @@ export function HeroSection() {
               </Group>
             </Flex>
           </Flex>
-
-
         </div>
         {/*<Image src={image.src} className={classes.image} />*/}
       </div>

@@ -1,7 +1,7 @@
 import { Link, NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api';
 import PublicLayout from '../PublicLayout';
-import { Anchor, Button, Container, Paper, PasswordInput, rem, Space, Text, TextInput, Title } from '@mantine/core';
+import { Anchor, Button, Container, Paper, PasswordInput, rem, Text, TextInput, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
@@ -54,7 +54,7 @@ export default function SignupRoute() {
 
   return (
     <PublicLayout>
-      <Container size={480} my={40}>
+      <Container size={480} my={10}>
         <Title ta="center">Create Account</Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Already have an account?{' '}
@@ -97,7 +97,8 @@ export default function SignupRoute() {
               and
               <Anchor c={'green.5'} ml={4} component={RouterNavLink} to={'/privacy-policy'}>
                 Privacy Policy
-              </Anchor>.
+              </Anchor>
+              .
             </Text>
 
             <Button disabled={submitting} fullWidth mt="lg" type="submit">
@@ -105,7 +106,6 @@ export default function SignupRoute() {
             </Button>
           </Paper>
         </form>
-        <Space h={50}/>
       </Container>
     </PublicLayout>
   );

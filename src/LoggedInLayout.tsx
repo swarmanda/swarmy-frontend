@@ -1,11 +1,12 @@
-import { AppShell, Burger, Flex, NavLink, Space, Title } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { AppShell, Burger, em, Flex, NavLink, Space, Title } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { NavLink as RouterNavLink } from 'react-router-dom';
-import { IconChartBar, IconCode, IconFileInvoice, IconFileStack, IconHexagonPlus, IconKey } from '@tabler/icons-react';
+import { IconChartBar, IconCode, IconFileInvoice, IconFileStack, IconKey } from '@tabler/icons-react';
 import UserMenu from './UserMenu.tsx';
 
 export default function LoggedInLayout({ children }) {
   const [opened, { toggle }] = useDisclosure();
+  const isMobile = useMediaQuery(`(max-width: ${em(767)})`);
 
   return (
     <>
@@ -19,24 +20,25 @@ export default function LoggedInLayout({ children }) {
         }}
         padding="md"
       >
-        <AppShell.Header withBorder={false}>
-          <Flex justify="space-between" align="center" p={'md'}>
-            <div>
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            </div>
-            <Flex justify="flex-end" align="center" gap={12}>
-              {/*<ThemeSwitcher />*/}
-              <UserMenu />
-            </Flex>
+        <AppShell.Header style={{ boxShadow: '#00000066 0px 5px 10px -4px' }} withBorder={false}>
+          <Flex mt={6} justify="space-between" align="center" px={'md'}>
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+            {isMobile ? <Title size={26}>Swarmy</Title> : <div></div>}
+
+            {/*<Flex justify="flex-end" align="center" gap={12}>*/}
+            {/*<ThemeSwitcher />*/}
+            <UserMenu />
+            {/*</Flex>*/}
           </Flex>
         </AppShell.Header>
 
-        <AppShell.Navbar p="md">
-          <Space h="sm" />
+        <AppShell.Navbar>
           <Flex justify={'center'} align={'center'} gap={6}>
-            <Title size={26}>Swarmy</Title>
-            <IconHexagonPlus size={26} />
+            <Title mt={14} size={26}>
+              Swarmy
+            </Title>
           </Flex>
+
           <Space h="xl" />
           {/*<NavLink*/}
           {/*    component={RouterNavLink}*/}
@@ -46,30 +48,35 @@ export default function LoggedInLayout({ children }) {
           {/*/>*/}
           <NavLink
             component={RouterNavLink}
+            onClick={toggle}
             to={'/app/files'}
             label="Files"
             leftSection={<IconFileStack size="1.5rem" stroke={1.5} />}
           />
           <NavLink
             component={RouterNavLink}
+            onClick={toggle}
             to={'/app/analytics'}
             label="Analytics"
             leftSection={<IconChartBar size="1.5rem" stroke={1.5} />}
           />
           <NavLink
             component={RouterNavLink}
+            onClick={toggle}
             to={'/app/api-keys'}
             label="Api keys"
             leftSection={<IconKey size="1.5rem" stroke={1.5} />}
           />
           <NavLink
             component={RouterNavLink}
+            onClick={toggle}
             to={'/app/api-guide'}
             label="Api guide"
             leftSection={<IconCode size="1.5rem" stroke={1.5} />}
           />
           <NavLink
             component={RouterNavLink}
+            onClick={toggle}
             to={'/app/billing'}
             label="Billing"
             leftSection={<IconFileInvoice size="1.5rem" stroke={1.5} />}
