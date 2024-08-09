@@ -1,9 +1,10 @@
-import { AppShell, Button, Flex, Grid } from '@mantine/core';
-import { Link, useLocation } from 'react-router-dom';
+import { Anchor, AppShell, Button, Flex, Grid, Text } from '@mantine/core';
+import { Link, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import { IconLogin } from '@tabler/icons-react';
 import { Logo } from './Logo.tsx';
 import { Footer } from './Footer.tsx';
 import { useAuthStore } from './store/AuthStore.ts';
+import { CookieConsent } from 'react-cookie-consent';
 
 export default function PublicLayout({ children }) {
   const signedIn = useAuthStore((state) => state.signedIn());
@@ -15,9 +16,7 @@ export default function PublicLayout({ children }) {
       <AppShell.Header>
         <Grid justify="space-between" align="center" ml={20}>
           <Grid.Col span={3}>
-            <Link to={'/'}>
-              <Logo size={30} />
-            </Link>
+            <Logo link size={30} />
           </Grid.Col>
           <Grid.Col span={3}>
             <Flex mr={20} mih={60} gap="md" justify="end" align="center" direction="row" wrap="wrap">
@@ -29,7 +28,27 @@ export default function PublicLayout({ children }) {
         </Grid>
       </AppShell.Header>
 
-      <AppShell.Main {...(location.pathname === '/') ? {p:0}: {}} >{children}</AppShell.Main>
+      <AppShell.Main {...(location.pathname === '/' ? { p: 0 } : {})}>
+        {children}
+      </AppShell.Main>
+      <CookieConsent
+        buttonStyle={{
+          background: 'rgb(12, 159, 86)',
+          color: 'white',
+          fontWeight: 700,
+          borderRadius: '5px',
+          fontSize: '13px',
+        }}
+      >
+        <Text size={'md'}>
+          This website uses cookies to enhance the user experience. You can see our policy
+          <Anchor ml={4} component={RouterNavLink} to={'/privacy'}>
+            here
+          </Anchor>
+          .
+        </Text>
+      </CookieConsent>
+
       <AppShell.Footer>
         <Footer />
       </AppShell.Footer>

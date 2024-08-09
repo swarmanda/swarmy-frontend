@@ -1,4 +1,4 @@
-import { Button, Flex, Group, Text, Title } from '@mantine/core';
+import { Anchor, Button, Center, Flex, Group, rem, Space, Text } from '@mantine/core';
 // import image from './image.svg';
 import classes from './HeroSection.module.css';
 import { SwarmLogo } from './SwarmLogo.tsx';
@@ -24,27 +24,35 @@ export function HeroSection() {
   }, []);
 
   return (
-    <Flex className={classes.container}>
+    <Flex>
       <div id="hero-canvas" className={classes.heroCanvas}></div>
 
       <div className={classes.inner}>
-        <div className={classes.content}>
-          <Logo size={80} />
-          <Flex justify={'flex-start'} align={'end'}>
-            <SwarmLogo className={classes.logo} height={40} />
-            <Title c={'white'} className={classes.title}>
-              &nbsp; as a service
-            </Title>
+        <div>
+          <Flex justify={'flex-start'} align={'start'} direction={'column'} className={classes.title}>
+            <Logo size={rem(50)} />
+            <Space h={'md'}/>
+            <Flex className={classes.subTitle} align={'end'}>
+              <SwarmLogo className={classes.logo} height={40} />
+              <Text fz={30} c={{ base: 'white' }}>
+                &nbsp; as a service
+              </Text>
+            </Flex>
+
+            <Flex direction={'column'}>
+              <Text c="dimmed" mt="md"></Text>
+
+              <Text fw={600}>A service that makes it simple to store and retrieve media on <Anchor target={'_blank'} href={'https://www.ethswarm.org/'}>Swarm</Anchor>.</Text>
+
+              <Group mt={30}>
+                <Button radius="sm" size="md" className={classes.control} component={RouterNavLink} to={'/signup'}>
+                  Get started
+                </Button>
+              </Group>
+            </Flex>
           </Flex>
-          <Text c="dimmed" mt="md"></Text>
 
-          <Text>Swarmy makes it simple to store and retrieve media on Swarm.</Text>
 
-          <Group mt={30}>
-            <Button radius="xl" size="md" className={classes.control} component={RouterNavLink} to={'/signup'}>
-              Get started
-            </Button>
-          </Group>
         </div>
         {/*<Image src={image.src} className={classes.image} />*/}
       </div>
