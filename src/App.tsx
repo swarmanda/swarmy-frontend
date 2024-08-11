@@ -17,6 +17,7 @@ import ApiGuideRoute from './routes/ApiGuideRoute.tsx';
 import PrivacyRoute from './routes/PrivacyRoute.tsx';
 import TermsOfServiceRoute from './routes/TermsOfServiceRoute.tsx';
 import ContactRoute from './routes/ContactRoute.tsx';
+import VerifyEmailRoute from './routes/VerifyEmailRoute.tsx';
 
 function App() {
   const greenColors: MantineColorsTuple = [
@@ -92,6 +93,7 @@ function App() {
 
             <Route path="app" element={<ProtectedRoute />}>
               <Route index element={<Navigate to="files" />} />
+              <Route path="verify" element={<VerifyEmailRoute />} />
               <Route path="files" element={<FilesRoute />} />
               <Route path="analytics" element={<AnalyticsRoute />} />
               <Route path="api-keys" element={<ApiKeysRoute />} />

@@ -139,17 +139,27 @@ class Api {
 
   async getPrivacyPolicy() {
     const { data } = await axios.get('/static-text/privacy-policy');
-    return data
+    return data;
   }
 
   async getTermsOfService() {
     const { data } = await axios.get('/static-text/terms-of-service');
-    return data
+    return data;
   }
 
   async getContactText() {
     const { data } = await axios.get('/static-text/contact');
-    return data
+    return data;
+  }
+
+  async resendVerificationEmail() {
+    const { data } = await axios.post('/users/resend-email-verification');
+    return data;
+  }
+
+  async verifyEmail(code: string) {
+    const { data } = await axios.post('/users/verify-email', { code });
+    return data;
   }
 }
 
