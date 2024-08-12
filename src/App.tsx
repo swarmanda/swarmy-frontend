@@ -18,6 +18,7 @@ import PrivacyRoute from './routes/PrivacyRoute.tsx';
 import TermsOfServiceRoute from './routes/TermsOfServiceRoute.tsx';
 import ContactRoute from './routes/ContactRoute.tsx';
 import VerifyEmailRoute from './routes/VerifyEmailRoute.tsx';
+import { ResetPasswordRoute } from './routes/ResetPasswordRoute.tsx';
 
 function App() {
   const greenColors: MantineColorsTuple = [
@@ -89,6 +90,7 @@ function App() {
             <Route path="terms-of-service" element={<TermsOfServiceRoute />} />
             <Route path="contact" element={<ContactRoute />} />
             <Route path="forgot-password" element={<ForgotPasswordRoute />} />
+            <Route path="reset-password" element={<ResetPasswordRoute />} />
             <Route path="signup" element={<SignupRoute />} />
             <Route path="verify" element={<VerifyEmailRoute />} />
 

@@ -115,7 +115,12 @@ class Api {
   }
 
   async sendResetPasswordEmail(email: string) {
-    const { data } = await axios.post('/users/reset-password', { email });
+    const { data } = await axios.post('/users/send-reset-password-email', { email });
+    return data;
+  }
+
+  async resetPassword(password: string, token: string) {
+    const { data } = await axios.post('/users/reset-password', { password, token });
     return data;
   }
 
@@ -168,6 +173,7 @@ class Api {
     const { data } = await axios.post('/users/verify-email', { code });
     return data;
   }
+
 }
 
 export const api = new Api();
