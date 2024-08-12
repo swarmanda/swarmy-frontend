@@ -4,35 +4,51 @@ import { IconCheck, IconMail, IconX } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import { useProfileStore } from '../store/ProfileStore.ts';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import PublicLayout from '../PublicLayout.tsx';
 
 export default function VerifyEmailRoute() {
   const [resendEnabled, setResendEnabled] = useState(true);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { emailVerified, setEmailVerified } = useProfileStore();
 
   useEffect(() => {
     const code = searchParams.get('c');
     if (code) {
-      verifyAndNavigate(code);
+      verify(code);
     }
-  }, [searchParams]);
+  }, []);
 
   const { email } = useProfileStore();
 
-  async function verifyAndNavigate(code: string) {
+  async function verify(code: string) {
     try {
       await api.verifyEmail(code);
-      // navigation.to('/app')
+      notifications.show({
+        title: 'Success!',
+        message: 'Email verified successfully!',
+        icon: <IconCheck style={{ width: rem(20), height: rem(20) }} />,
+        color: 'green',
+      });
+      setEmailVerified(true);
     } catch (e) {
+      notifications.show({
+        title: 'Failed to verify',
+        message: 'Please contact support',
+        icon: <IconX style={{ width: rem(20), height: rem(20) }} />,
+        color: 'red',
+      });
       console.warn(e);
     }
   }
 
   async function resend() {
     setResendEnabled(false);
-    setTimeout(() => setResendEnabled(true), 10_000);
+    setTimeout(() => setResendEnabled(true), 20_000);
     try {
-      await api.resendVerificationEmail();
+      const code = searchParams.get('c');
+      await api.resendVerificationEmail(code);
       notifications.show({
         title: 'Success!',
         message: 'Verification email successfully sent',
@@ -50,12 +66,24 @@ export default function VerifyEmailRoute() {
     }
   }
 
-  return (
-    <Center>
-      <Card mt={'xl'} shadow="xs" p="xl" maw={700}>
+  function getVerifiedBlock() {
+    return (
+      <>
         <Center>
-          <IconMail size={100} />
+          <Title order={2}>Email successfully verified!</Title>
         </Center>
+
+        <Text my={'lg'}>Thank you for verifying your email. You can start using the site now.</Text>
+        <Center>
+          <Button onClick={() => navigate('/app/files')}>Let's start</Button>
+        </Center>
+      </>
+    );
+  }
+
+  function getUnverifiedBlock() {
+    return (
+      <>
         <Center>
           <Title order={2}>Verify your email</Title>
         </Center>
@@ -74,7 +102,21 @@ export default function VerifyEmailRoute() {
             Resend email
           </Button>
         </Center>
-      </Card>
-    </Center>
+      </>
+    );
+  }
+
+  return (
+    <PublicLayout>
+      <Center>
+        <Card mt={'xl'} shadow="xs" p="xl" maw={700}>
+          <Center>
+            <IconMail size={100} />
+          </Center>
+
+          {emailVerified ? getVerifiedBlock() : getUnverifiedBlock()}
+        </Card>
+      </Center>
+    </PublicLayout>
   );
 }

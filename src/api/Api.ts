@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/AuthStore.ts';
+import { useProfileStore } from '../store/ProfileStore.ts';
 
 class Api {
   constructor() {
@@ -28,7 +29,8 @@ class Api {
       },
       function (error) {
         if (401 === error.response.status) {
-          useAuthStore.getState().setAccessToken('');
+          useAuthStore.getState().clear();
+          useProfileStore.getState().clear();
         }
         return Promise.reject(error);
       },
@@ -152,9 +154,14 @@ class Api {
     return data;
   }
 
-  async resendVerificationEmail() {
-    const { data } = await axios.post('/users/resend-email-verification');
-    return data;
+  async resendVerificationEmail(code: string | null) {
+    if (code) {
+      const { data } = await axios.post('/users/resend-email-verification-by-code', { code });
+      return data;
+    } else {
+      const { data } = await axios.post('/users/resend-email-verification-by-user');
+      return data;
+    }
   }
 
   async verifyEmail(code: string) {

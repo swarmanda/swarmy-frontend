@@ -6,11 +6,11 @@ import { useProfileStore } from './store/ProfileStore.ts';
 
 export default function UserMenu() {
   const navigate = useNavigate();
-  const { setAccessToken } = useAuthStore();
-  const { email, clearProfile } = useProfileStore();
+  const { clear: clearAuthStore } = useAuthStore();
+  const { email, clear: clearProfile } = useProfileStore();
 
   function onLogoutPressed() {
-    setAccessToken('');
+    clearAuthStore();
     clearProfile();
     navigate('/');
   }

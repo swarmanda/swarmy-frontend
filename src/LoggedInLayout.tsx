@@ -4,7 +4,7 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import { IconChartBar, IconCode, IconFileInvoice, IconFileStack, IconKey } from '@tabler/icons-react';
 import UserMenu from './UserMenu.tsx';
 
-export default function LoggedInLayout({ children, sidebar }) {
+export default function LoggedInLayout({ children }) {
   const [opened, { toggle }] = useDisclosure();
   const isMobile = useMediaQuery(`(max-width: ${em(767)})`);
 
@@ -14,7 +14,7 @@ export default function LoggedInLayout({ children, sidebar }) {
         layout="alt"
         header={{ height: 60 }}
         navbar={{
-          width: sidebar ? 300 : 0,
+          width: 300,
           breakpoint: 'sm',
           collapsed: { mobile: !opened },
         }}
@@ -32,58 +32,56 @@ export default function LoggedInLayout({ children, sidebar }) {
           </Flex>
         </AppShell.Header>
 
-        {sidebar && (
-          <AppShell.Navbar>
-            <Flex justify={'center'} align={'center'} gap={6}>
-              <Title mt={14} size={26}>
-                Swarmy
-              </Title>
-            </Flex>
+        <AppShell.Navbar>
+          <Flex justify={'center'} align={'center'} gap={6}>
+            <Title mt={14} size={26}>
+              Swarmy
+            </Title>
+          </Flex>
 
-            <Space h="xl" />
-            {/*<NavLink*/}
-            {/*    component={RouterNavLink}*/}
-            {/*    to={"/app/profile"}*/}
-            {/*    label="Profile"*/}
-            {/*    leftSection={<IconUser size="1.5rem" stroke={1.5}/>}*/}
-            {/*/>*/}
-            <NavLink
-              component={RouterNavLink}
-              onClick={toggle}
-              to={'/app/files'}
-              label="Files"
-              leftSection={<IconFileStack size="1.5rem" stroke={1.5} />}
-            />
-            <NavLink
-              component={RouterNavLink}
-              onClick={toggle}
-              to={'/app/analytics'}
-              label="Analytics"
-              leftSection={<IconChartBar size="1.5rem" stroke={1.5} />}
-            />
-            <NavLink
-              component={RouterNavLink}
-              onClick={toggle}
-              to={'/app/api-keys'}
-              label="Api keys"
-              leftSection={<IconKey size="1.5rem" stroke={1.5} />}
-            />
-            <NavLink
-              component={RouterNavLink}
-              onClick={toggle}
-              to={'/app/api-guide'}
-              label="Api guide"
-              leftSection={<IconCode size="1.5rem" stroke={1.5} />}
-            />
-            <NavLink
-              component={RouterNavLink}
-              onClick={toggle}
-              to={'/app/billing'}
-              label="Billing"
-              leftSection={<IconFileInvoice size="1.5rem" stroke={1.5} />}
-            />
-          </AppShell.Navbar>
-        )}
+          <Space h="xl" />
+          {/*<NavLink*/}
+          {/*    component={RouterNavLink}*/}
+          {/*    to={"/app/profile"}*/}
+          {/*    label="Profile"*/}
+          {/*    leftSection={<IconUser size="1.5rem" stroke={1.5}/>}*/}
+          {/*/>*/}
+          <NavLink
+            component={RouterNavLink}
+            onClick={toggle}
+            to={'/app/files'}
+            label="Files"
+            leftSection={<IconFileStack size="1.5rem" stroke={1.5} />}
+          />
+          <NavLink
+            component={RouterNavLink}
+            onClick={toggle}
+            to={'/app/analytics'}
+            label="Analytics"
+            leftSection={<IconChartBar size="1.5rem" stroke={1.5} />}
+          />
+          <NavLink
+            component={RouterNavLink}
+            onClick={toggle}
+            to={'/app/api-keys'}
+            label="Api keys"
+            leftSection={<IconKey size="1.5rem" stroke={1.5} />}
+          />
+          <NavLink
+            component={RouterNavLink}
+            onClick={toggle}
+            to={'/app/api-guide'}
+            label="Api guide"
+            leftSection={<IconCode size="1.5rem" stroke={1.5} />}
+          />
+          <NavLink
+            component={RouterNavLink}
+            onClick={toggle}
+            to={'/app/billing'}
+            label="Billing"
+            leftSection={<IconFileInvoice size="1.5rem" stroke={1.5} />}
+          />
+        </AppShell.Navbar>
 
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>

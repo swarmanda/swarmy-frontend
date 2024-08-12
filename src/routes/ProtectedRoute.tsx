@@ -1,32 +1,29 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import LoggedInLayout from '../LoggedInLayout.tsx';
 import { useAuthStore } from '../store/AuthStore.ts';
 import { useProfileStore } from '../store/ProfileStore.ts';
-import VerifyEmailRoute from './VerifyEmailRoute.tsx';
+import { useEffect } from 'react';
 
 export default function ProtectedRoute() {
+  const navigate = useNavigate();
   const signedIn = useAuthStore((state) => state.signedIn());
-  const location = useLocation();
-  const { emailVerified } = useProfileStore();
-  console.log('rendering protected route');
-  if (!signedIn) {
-    return <Navigate to={'/login'} />;
-  }
+  const { email, emailVerified } = useProfileStore();
+  console.debug('rendering protected route');
 
-  if (!emailVerified) {
-    if (location.pathname != '/app/verify') {
-      return <Navigate to={'/app/verify'} />;
-    } else {
-      return (
-        <LoggedInLayout sidebar={false}>
-          <VerifyEmailRoute />
-        </LoggedInLayout>
-      );
+  useEffect(() => {
+    if (!signedIn) {
+      navigate('/login');
     }
-  }
+
+    //signed in, profile loaded, but email not verified
+    if (email && !emailVerified) {
+      console.debug('navigating to verify screen');
+      navigate('/verify');
+    }
+  }, [signedIn, email, emailVerified]);
 
   return (
-    <LoggedInLayout sidebar={true}>
+    <LoggedInLayout>
       <Outlet />
     </LoggedInLayout>
   );

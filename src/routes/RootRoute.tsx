@@ -5,12 +5,18 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/Api.ts';
 import React from 'react';
 import { useProfileStore } from '../store/ProfileStore.ts';
+import PublicLayout from '../PublicLayout.tsx';
+import { Center, Loader } from '@mantine/core';
 
 export default function RootRoute() {
   const { setProfile } = useProfileStore();
   const { accessToken } = useAuthStore();
   console.log('rendering root route');
-  const { data: profileData } = useQuery({
+  const {
+    data: profileData,
+    isFetching,
+    isLoading,
+  } = useQuery({
     queryKey: ['profile'],
     queryFn: api.getProfile,
     enabled: !!accessToken,
@@ -20,13 +26,22 @@ export default function RootRoute() {
     if (profileData) {
       setProfile(profileData);
     }
-  }, [profileData]);
+  }, [isFetching]);
 
   return (
     <>
       <Notifications />
-      {/*{isLoading ? "Loading" : <Outlet/> }*/}
-      <Outlet />
+      {isLoading ? (
+        <PublicLayout>
+          <Center p={'xl'}>
+            <Loader mt={'xl'} />
+          </Center>
+        </PublicLayout>
+      ) : (
+        <Outlet />
+      )}
+
+      {/*<Outlet />*/}
       {/*<ReactQueryDevtools initialIsOpen={false} />*/}
     </>
   );

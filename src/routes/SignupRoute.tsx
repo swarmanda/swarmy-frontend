@@ -45,7 +45,7 @@ export default function SignupRoute() {
     try {
       const token = await api.login(email, password);
       setAccessToken(token);
-      navigate('/app');
+      navigate('/verify');
     } catch (e) {
       console.error('Auto login failed', e);
       navigate('/login');

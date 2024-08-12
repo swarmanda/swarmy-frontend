@@ -6,6 +6,7 @@ interface AuthState {
   organizationId: string | null;
   setAccessToken: (token: string) => void;
   signedIn: () => boolean;
+  clear: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -14,6 +15,11 @@ export const useAuthStore = create<AuthState>()(
       accessToken: '',
       organizationId: null,
       setAccessToken: (token: string) => set(() => ({ accessToken: token })),
+      clear: () =>
+        set(() => ({
+          accessToken: '',
+          organizationId: null,
+        })),
       signedIn: () => !!get().accessToken,
     }),
     {
