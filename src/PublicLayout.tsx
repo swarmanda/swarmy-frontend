@@ -1,4 +1,4 @@
-import { Anchor, AppShell, Button, Flex, Space, Text } from '@mantine/core';
+import { Anchor, AppShell, Button, Flex, Group, Space, Text } from '@mantine/core';
 import { Link, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import { IconApps, IconLogin } from '@tabler/icons-react';
 import { Logo } from './Logo.tsx';
@@ -7,6 +7,7 @@ import { useAuthStore } from './store/AuthStore.ts';
 import { CookieConsent } from 'react-cookie-consent';
 import UserMenu from './UserMenu.tsx';
 import { useProfileStore } from './store/ProfileStore.ts';
+import { AppIcon } from './AppIcon.tsx';
 
 export default function PublicLayout({ children }) {
   const signedIn = useAuthStore((state) => state.signedIn());
@@ -16,8 +17,13 @@ export default function PublicLayout({ children }) {
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <Flex justify="space-between" align="center" ml={20}>
-          <Logo link size={26} />
+        <Flex justify="space-between" align="center" ml={10}>
+          <Anchor style={{ textDecoration: 'none' }} size="sm" component={RouterNavLink} to={'/'}>
+            <Group gap={8}>
+              <AppIcon s={40} />
+              <Logo w={100} mt={4} />
+            </Group>
+          </Anchor>
           <Flex mr={20} mih={60} gap="md" justify="end" align="center" direction="row" wrap="wrap">
             {signedIn ? (
               <Button disabled={!emailVerified} component={Link} to={'/app'} rightSection={<IconApps size={20} />}>

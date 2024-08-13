@@ -1,10 +1,11 @@
-import { Anchor, Button, Flex, Group, rem, Space, Text } from '@mantine/core';
+import { Anchor, Button, Flex, Group, Space, Text } from '@mantine/core';
 // import image from './image.svg';
 import classes from './HeroSection.module.css';
 import { SwarmLogo } from './SwarmLogo.tsx';
 import { Logo } from './Logo.tsx';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import { useEffect } from 'react';
+import { AppIcon } from './AppIcon.tsx';
 
 export function HeroSection() {
   useEffect(() => {
@@ -30,21 +31,26 @@ export function HeroSection() {
       <div className={classes.inner}>
         <div>
           <Flex justify={'flex-start'} align={'start'} direction={'column'} className={classes.title}>
-            <Logo size={rem(50)} />
-            <Space h={'md'} />
+            <Flex justify={'center'} align={'center'}>
+              <AppIcon s={90} />
+              <Logo w={256} mt={16} ml={10} />
+            </Flex>
+
+            <Space h={'xl'} />
             <Flex className={classes.subTitle} align={'end'}>
-              <SwarmLogo className={classes.logo} height={40} />
-              <Text fz={30} c={{ base: 'white' }}>
-                &nbsp; as a service
+              <Text fz={18} fw={600} mr={10} c={'white'}>
+                A
+              </Text>
+              <SwarmLogo className={classes.logo} height={28} />
+              <Text fz={20} fw={600} c={'white'}>
+                &nbsp; as a service solution
               </Text>
             </Flex>
 
-            <Flex direction={'column'}>
-              <Text c="dimmed" mt="md"></Text>
-
-              <Text fw={600}>
+            <Flex mt={'sm'} direction={'column'}>
+              <Text fz={18} fw={400}>
                 A service that makes it simple to store and retrieve media on{' '}
-                <Anchor target={'_blank'} href={'https://www.ethswarm.org/'}>
+                <Anchor fz={18} target={'_blank'} href={'https://www.ethswarm.org/'}>
                   Swarm
                 </Anchor>
                 .
