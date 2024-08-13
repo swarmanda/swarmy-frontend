@@ -8,6 +8,7 @@ export type Plan = {
   frequency: string;
   status: PlanStatus;
   statusReason: string;
+  cancelAt: string,
   quotas: PlanQuota;
 };
 

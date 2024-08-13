@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { api } from '../../api/Api.ts';
 import { notifications } from '@mantine/notifications';
 import { Plan } from './Plan.tsx';
+import { Date } from '../Date.tsx';
 
 interface ActivePlanCardProps {
   isLoading: boolean;
@@ -132,6 +133,13 @@ export function ActivePlanCard({ plan, isLoading, onCancelled }: ActivePlanCardP
             <Text fw={600}>Price: </Text>
             {priceLabel()}
           </Group>
+          {plan.cancelAt &&
+            <Alert py={'sm'} mt={'lg'} icon={<IconAlertTriangle />} variant={'filled'} color={'orange.6'} fw={600}>
+              Your plan is active until <Date value={plan.cancelAt} />.
+              <br/>
+              After that, you won't be able to use the service and your data will be removed.
+            </Alert>
+          }
         </>
       )}
     </Card>
