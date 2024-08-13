@@ -86,7 +86,7 @@ export default function FilesRoute() {
     }
     return (
       <Alert py={'sm'} mb={'xl'} icon={<IconAlertTriangle />} variant={'filled'} color={'yellow.8'} fw={600}>
-        {postageBatchStatus === null && <Text>Subscription needed to upload files.</Text>}
+        {(postageBatchStatus === null || postageBatchStatus === 'REMOVED') && <Text>Subscription needed to upload files.</Text>}
         {postageBatchStatus === 'CREATING' && (
           <Text>Connecting your account with Swarm. This can take up to a few minutes.</Text>
         )}
