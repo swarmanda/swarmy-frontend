@@ -18,6 +18,8 @@ import { useForm } from '@mantine/form';
 import { api } from './api/Api.ts';
 import { notifications } from '@mantine/notifications';
 import { formatBytes } from './FileSizeFormatter.ts';
+import { Simulate } from 'react-dom/test-utils';
+import load = Simulate.load;
 
 interface FormValues {
   files: File[];
@@ -29,6 +31,7 @@ interface FileUploaderProps {
 
 export function FileUploader({ onUploaded }: FileUploaderProps) {
   const theme = useMantineTheme();
+  const [loading, setLoading] = useState(false);
   const openRef = useRef<() => void>(null);
   const form = useForm<FormValues>({
     initialValues: { files: [] },
@@ -55,6 +58,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
   ));
 
   async function submit() {
+    setLoading(true)
     try {
       await api.uploadFile(form.values.files[0], uploadAsWebsite);
       notifications.show({
@@ -73,6 +77,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
         color: 'red',
       });
     }
+    setLoading(false)
   }
 
   return (
@@ -84,8 +89,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
             openRef={openRef}
             className={classes.dropzone}
             radius="md"
-            // accept={[MIME_TYPES.pdf]}
-            maxSize={30 * 1024 ** 2}
+            maxSize={1024 * 1024 * 1024} //1 gb
           >
             <div style={{ pointerEvents: 'none' }}>
               <Group justify="center">
@@ -158,7 +162,7 @@ export function FileUploader({ onUploaded }: FileUploaderProps) {
           )}
 
           <Center mt={'xl'}>
-            <Button onClick={submit}>Upload</Button>
+            <Button loading={loading} onClick={submit}>Upload</Button>
           </Center>
         </>
       )}
