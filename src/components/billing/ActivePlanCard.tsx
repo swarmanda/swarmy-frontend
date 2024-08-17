@@ -58,6 +58,10 @@ export function ActivePlanCard({ plan, isLoading, onCancelled }: ActivePlanCardP
     return `${plan.currency} ${plan.amount.toFixed(2)} / ${plan.frequency.toLowerCase()}`;
   }
 
+  function isConfigMenuVisible() {
+    return !isFreePlan() && !plan.cancelAt
+  }
+
   return (
     <Card withBorder bg={'gray.8'} shadow="md" radius="md" padding="xl">
       {isLoading ? (
@@ -74,7 +78,7 @@ export function ActivePlanCard({ plan, isLoading, onCancelled }: ActivePlanCardP
           <Group align={'center'} gap={'xs'} mb={'md'}>
             <Title order={2}>Current plan</Title>
 
-            {!isFreePlan() && (
+            {isConfigMenuVisible() && (
               <Menu shadow="md" width={200}>
                 <Menu.Target>
                   <ActionIcon size={'sm'} c={'gray'} variant={'subtle'} mt={4}>
