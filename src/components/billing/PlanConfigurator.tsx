@@ -150,6 +150,15 @@ export function PlanConfigurator() {
               <SubscriptionSummary config={config} storageCapacity={capacity} bandwidth={bandwidth} />
               <Space h="xl" />
 
+              <Text size={'sm'} c={'dimmed'}>
+                After clicking the Subscribe button, you will be redirected to Stripe's payment form to create a monthly
+                subscription.
+                <br />
+                You can cancel the subscription anytime, you will be able to access the paid services until the end of
+                the billing period.
+              </Text>
+              <Space h="lg" />
+
               <Button disabled={!isLoaded || (!isUpgrade() && !isFreePlan())} onClick={() => startSubscription()}>
                 {isFreePlan() ? 'Subscribe' : 'Upgrade Subscription'}
               </Button>
