@@ -7,6 +7,7 @@ import { SubscriptionSlider } from './SubscriptionSlider.tsx';
 import { BillingConfiguratorSkeleton } from './BillingConfiguratorSkeleton.tsx';
 import { SubscriptionSummary } from './SubscriptionSummary.tsx';
 import {
+  getBandwidthByExp,
   getBandwidthBySize,
   getStorageCapacityByExp,
   getStorageCapacityBySize,
@@ -37,12 +38,10 @@ export function PlanConfigurator() {
     if (subscriptionConfigQuery.isSuccess && activePlanQuery.isSuccess) {
       const config = subscriptionConfigQuery.data;
 
-      const defaultBandwidth =
-        getSubscribedBandwidth() === undefined ? config.bandwidth.defaultOption : getSubscribedBandwidth();
+      const defaultBandwidth = getSubscribedBandwidth() || config.bandwidth.defaultOption;
       setBandwidth(defaultBandwidth);
 
-      const defaultStorageCapacity =
-        getSubscribedStorageCapacity() === undefined ? config.bandwidth.defaultOption : getSubscribedStorageCapacity();
+      const defaultStorageCapacity = getSubscribedStorageCapacity() || config.storageCapacity.defaultOption;
       setCapacity(defaultStorageCapacity);
 
       setLoaded(true);
@@ -54,7 +53,7 @@ export function PlanConfigurator() {
   async function startSubscription() {
     // todo try catch
     const requestedCapacity = getStorageCapacityByExp(config, capacity)?.size;
-    const requestedBandwidth = getStorageCapacityByExp(config, bandwidth)?.size;
+    const requestedBandwidth = getBandwidthByExp(config, bandwidth)?.size;
     const result = await api.startSubscription(requestedCapacity!, requestedBandwidth!);
     window.location.href = result.redirectUrl;
   }
