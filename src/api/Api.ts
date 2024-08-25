@@ -159,6 +159,12 @@ class Api {
     return data;
   }
 
+  async getFAQ() {
+    const { data } = await axios.get('/static-text/faq');
+    return data;
+  }
+
+
   async resendVerificationEmail(code: string | null) {
     if (code) {
       const { data } = await axios.post('/users/resend-email-verification-by-code', { code });
