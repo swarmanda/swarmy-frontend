@@ -1,4 +1,4 @@
-import { Alert, Container, Flex, Select, Space, Stack, Text } from '@mantine/core';
+import { Alert, Flex, Select, Space, Stack, Text } from '@mantine/core';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { stackoverflowDark as theme } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { config } from '../config.tsx';
@@ -25,7 +25,7 @@ export default function ApiGuideRoute() {
   }
 
   function getBashFileDownload() {
-    return `curl "${downloadEndpoint}/hash_of_file?k=${apiKey} --output filename`;
+    return `curl "${downloadEndpoint}/hash_of_file?k=${apiKey}" --output filename`;
   }
 
   function getBashListFiles() {
