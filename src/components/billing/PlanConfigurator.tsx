@@ -1,4 +1,4 @@
-import { Button, Card, Container, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { Button, Card, Container, rem, ScrollArea, Space, Text, Title } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import { api } from '../../api/Api.ts';
 import { useEffect, useState } from 'react';
@@ -13,6 +13,8 @@ import {
   getStorageCapacityBySize,
   SubscriptionConfig,
 } from './SubscriptionConfig.ts';
+import { notifications } from '@mantine/notifications';
+import { IconX } from '@tabler/icons-react';
 
 export function PlanConfigurator() {
   const [capacity, setCapacity] = useState(NaN);
@@ -54,8 +56,18 @@ export function PlanConfigurator() {
     // todo try catch
     const requestedCapacity = getStorageCapacityByExp(config, capacity)?.size;
     const requestedBandwidth = getBandwidthByExp(config, bandwidth)?.size;
-    const result = await api.startSubscription(requestedCapacity!, requestedBandwidth!);
-    window.location.href = result.redirectUrl;
+    try {
+      const result = await api.startSubscription(requestedCapacity!, requestedBandwidth!);
+      window.location.href = result.redirectUrl;
+    } catch (e) {
+      console.log(e);
+      notifications.show({
+        title: 'Operation failed',
+        message: 'Please try again later, or please contact support.',
+        icon: <IconX style={{ width: rem(20), height: rem(20) }} />,
+        color: 'red',
+      });
+    }
   }
 
   function isFreePlan() {
